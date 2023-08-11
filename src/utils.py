@@ -79,3 +79,13 @@ def resample_image(loadpath, savepath, out_spacing=[0.357,0.357,0.500], ratio=Fa
     sitk.WriteImage(resample.Execute(itk_image),savepath)
  
     return resample.Execute(itk_image)
+
+def get_bbox_from_mask(mask, outside_value=0):
+    mask_voxel_coords = np.where(mask != outside_value)
+    minzidx = int(np.min(mask_voxel_coords[0]))
+    maxzidx = int(np.max(mask_voxel_coords[0])) + 1
+    minxidx = int(np.min(mask_voxel_coords[1]))
+    maxxidx = int(np.max(mask_voxel_coords[1])) + 1
+    minyidx = int(np.min(mask_voxel_coords[2]))
+    maxyidx = int(np.max(mask_voxel_coords[2])) + 1
+    return [[minzidx,maxzidx], [minxidx,maxxidx], [minyidx,maxyidx]]
